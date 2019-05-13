@@ -1,0 +1,14 @@
+model_params:
+  alg: ppo2
+  network: impala_cnn
+
+training_params:
+  num_timesteps: 1e7
+  save_path: None
+  play: False
+  seed: None
+  num_env: None
+
+env_params:
+  env: VizDoomTrack2-v0
+  env_type: custom
