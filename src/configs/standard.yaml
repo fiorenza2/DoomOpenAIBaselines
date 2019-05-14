@@ -12,3 +12,4 @@ training_params:
 env_params:
   env: VizDoomTrack2-v0
   env_type: custom
+  frame_stack: 4

@@ -59,9 +59,6 @@ class VizDoomGym(gym.Env):
         # distance we need the agent to travel per time-step, otherwise we penalise
         self.distance_threshold = 15
 
-        assert not ((self.curriculum is True) and (self.increase_diff is True)),\
-            "Don't have both true!"
-
         self.prev_properties = None
         self.properties = None
 
@@ -213,7 +210,7 @@ class VizDoomGym(gym.Env):
     #     self.env.set_doom_map(map_str)
     #     self.env.init()
 
-    def _reset(self):
+    def sub_reset(self):
         """Reset environment"""
         self.steps = 0
         self.cum_kills = np.array([0])
@@ -225,10 +222,10 @@ class VizDoomGym(gym.Env):
         return observation
 
     def reset(self):
-        observation = self._reset()
+        observation = self.sub_reset()
         return observation
 
-    def _step(self, action):
+    def sub_step(self, action):
         """Take step"""
         one_hot_action = np.zeros(self.action_space.n, dtype=int)
         one_hot_action[action] = 1
@@ -256,7 +253,7 @@ class VizDoomGym(gym.Env):
         return observation, reward, done
 
     def step(self, action):
-        observation, reward, done = self._step(action)
+        observation, reward, done = self.sub_step(action)
         return observation, reward, done, {}
 
     def close(self):
@@ -265,7 +262,8 @@ class VizDoomGym(gym.Env):
 
     def seed(self, seed=None):
         """Seed"""
-        raise NotImplementedError
+        if seed:
+            self.env.set_seed(seed)
 
     def render(self, mode='human'):
         """Render frame"""
@@ -279,8 +277,10 @@ class VizDoomGymTrack2(VizDoomGym):
     def __init__(self):
         this_dir = os.path.realpath(__file__)
         mission_file = os.path.join(
-            os.path.split(this_dir),
+            os.path.split(this_dir)[0],
+            "..",
             "resources",
+            "scenarios",
             "deathmatch_real_forward.cfg")
         self._init(mission_file=mission_file, scaled_resolution=[84, 84])
 
