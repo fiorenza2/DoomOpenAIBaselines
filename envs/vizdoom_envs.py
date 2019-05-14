@@ -73,7 +73,7 @@ class VizDoomGym(gym.Env):
             self.env.add_game_args("-deathmatch")
 
         self.env.set_doom_skill(4)
-        self._action_frame_repeat = 1
+        self._action_frame_repeat = 4
         self.env.init()
 
         # Perform config validation:

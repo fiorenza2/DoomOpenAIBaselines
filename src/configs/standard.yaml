@@ -1,9 +1,9 @@
 model_params:
   alg: ppo2
-  network: impala_cnn
+  network: impala_cnn_lstm
 
 training_params:
-  num_timesteps: 1e7
+  num_timesteps: 1e11
   save_path: None
   play: False
   seed: None
@@ -12,4 +12,4 @@ training_params:
 env_params:
   env: VizDoomTrack2-v0
   env_type: custom
-  frame_stack: 4
+  # frame_stack: True
